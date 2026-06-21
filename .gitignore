@@ -1,0 +1,11 @@
+# Okta / secrets — never commit credentials
+.okta.env
+*.env
+
+# Build output
+/server
+app-gin
+
+# Go
+*.test
+*.out

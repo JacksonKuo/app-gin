@@ -1,0 +1,30 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout src
+      uses: actions/checkout@v4
+
+    - name: Log in to GHCR
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+    - name: Build Docker image
+      run: docker build -t ghcr.io/jacksonkuo/app-gin:latest .
+
+    - name: Push Docker image to GHCR
+      run: docker push ghcr.io/jacksonkuo/app-gin:latest
+
+    - name: Delete untagged images
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        for id in $(gh api --paginate "/user/packages/container/app-gin/versions" --jq '.[] | select(.metadata.container.tags == []) | .id'); do
+          gh api --method DELETE "/user/packages/container/app-gin/versions/$id"
+        done
