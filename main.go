@@ -28,11 +28,11 @@ func main() {
 
   var err error
   if _, statErr := os.Stat(certFile); statErr == nil {
-    log.Println("TLS cert found; serving HTTPS on :8886")
-    err = r.RunTLS(":8886", certFile, keyFile)
+    log.Println("TLS cert found; serving HTTPS on :2096")
+    err = r.RunTLS(":2096", certFile, keyFile)
   } else {
-    log.Println("no TLS cert; serving HTTP on :8886")
-    err = r.Run(":8886")
+    log.Println("no TLS cert; serving HTTP on :2096")
+    err = r.Run(":2096")
   }
   if err != nil {
     log.Fatalf("failed to run server: %v", err)

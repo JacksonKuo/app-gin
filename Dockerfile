@@ -10,5 +10,5 @@ RUN CGO_ENABLED=0 go build -o /app/server .
 # Stage 2: runtime — minimal, no shell, no package manager, runs as nonroot
 FROM cgr.dev/chainguard/static:latest
 COPY --from=build /app/server /server
-EXPOSE 8886
+EXPOSE 2096
 ENTRYPOINT ["/server"]
