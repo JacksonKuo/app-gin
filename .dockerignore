@@ -3,4 +3,7 @@
 Dockerfile
 .dockerignore
 README.md
-app-gin-chart
+
+# secrets — never copy into the build context
+.okta.env
+*.env

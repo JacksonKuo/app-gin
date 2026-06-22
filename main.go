@@ -20,6 +20,15 @@ func main() {
     })
   })
 
+  // Temporary: prove the Okta env injection works. Issuer is a public URL
+  // (non-sensitive), so it's safe to echo. Remove once OIDC is wired up.
+  r.GET("/env", func(c *gin.Context) {
+    c.JSON(http.StatusOK, gin.H{
+      "OKTA_OAUTH2_ISSUER": os.Getenv("OKTA_OAUTH2_ISSUER"),
+      "OKTA_REDIRECT_URI":  os.Getenv("OKTA_REDIRECT_URI"),
+    })
+  })
+
   // Serve HTTPS with the Let's Encrypt cert when it's mounted (prod/K3s),
   // otherwise fall back to plain HTTP (local dev). Go reads the PEM files
   // directly, so no keystore conversion is needed.
